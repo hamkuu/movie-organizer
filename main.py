@@ -6,9 +6,9 @@ from fasthtml.common import *  # noqa: F403
 app, rt = fast_app()
 
 
-def get_downloads_path():
+def get_default_path():
     """Get the default Downloads directory path for the current user"""
-    return str(Path.home() / "Downloads")
+    return str(Path.home() / "Downloads" / "Movies")
 
 
 @rt("/")
@@ -23,7 +23,7 @@ def get():
                     type="text",
                     name="directory",
                     id="directory",
-                    value=get_downloads_path(),
+                    value=get_default_path(),
                     placeholder="Enter directory path...",
                 ),
                 Button("List Folders", type="submit"),
