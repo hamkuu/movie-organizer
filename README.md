@@ -13,3 +13,10 @@ A utility to organize movie metadata and assets.
 ```shell
 python main.py
 ```
+
+## Features
+
+- List movie folders
+- Query movie meta data
+- Rename movie folder name
+- Download movie assets
