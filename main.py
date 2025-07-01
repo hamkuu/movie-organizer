@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 from fasthtml.common import (
@@ -51,20 +50,9 @@ def index():
 
 @rt("/list-folders")
 def list_folders(directory: Path):
-    """List all folders in the specified directory"""
     try:
-        # Expand a user path if it contains ~
-        directory = os.path.expanduser(directory)
-
-        try:
-            items = os.listdir(directory)
-            folders = [item for item in items if os.path.isdir(os.path.join(directory, item))]
-            folders.sort()
-        except PermissionError:
-            return Div(P(f"Permission denied: Cannot access {directory}"), cls="container")
-
-        if not folders:
-            return Div(P(f"No folders found in: {directory}"), cls="container")
+        folders = [p for p in directory.iterdir() if p.is_dir()]
+        folders.sort()
 
         # Create the folder list
         folder_items = [Li(f"{folder}") for folder in folders]
