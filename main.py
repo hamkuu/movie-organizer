@@ -1,19 +1,18 @@
 from pathlib import Path
 
 from fasthtml.common import (
-    H3,
     Button,
     Div,
     Form,
     Input,
     Label,
-    Li,
     P,
     Titled,
     Ul,
     fast_app,
     serve,
 )
+from fasthtml.components import Section
 
 app, rt = fast_app()
 
@@ -51,18 +50,9 @@ def index():
 @rt("/list-folders")
 def list_folders(directory: Path):
     try:
-        folders = [p for p in directory.iterdir() if p.is_dir()]
-        folders.sort()
-
-        # Create the folder list
-        folder_items = [Li(f"{folder}") for folder in folders]
-
-        return Div(
-            H3(f"Folders in: {directory}"), P(f"Found {len(folders)} folder(s)"), Ul(*folder_items), cls="container"
-        )
-
+        return Section(map(Ul, directory.iterdir()))
     except Exception as e:
-        return Div(P(f"Error: {str(e)}"), cls="container")
+        return Section(P(f"Error: {str(e)}"))
 
 
 serve()
