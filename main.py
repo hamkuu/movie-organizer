@@ -40,10 +40,10 @@ def index():
 
 @rt("/list-folders")
 def list_folders(path: Path):
-    try:
+    if path.is_dir():
         return Section(map(Ul, path.iterdir()))
-    except Exception as e:
-        return Section(P(f"Error: {str(e)}"))
+    else:
+        return Section(P(f"{path} is not a directory."))
 
 
 serve()
