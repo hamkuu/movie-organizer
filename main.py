@@ -1,7 +1,20 @@
 import os
 from pathlib import Path
 
-from fasthtml.common import *  # noqa: F403
+from fasthtml.common import (
+    H3,
+    Button,
+    Div,
+    Form,
+    Input,
+    Label,
+    Li,
+    P,
+    Titled,
+    Ul,
+    fast_app,
+    serve,
+)
 
 app, rt = fast_app()
 
