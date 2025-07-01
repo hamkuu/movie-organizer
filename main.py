@@ -56,15 +56,6 @@ def list_folders(directory: Path):
         # Expand a user path if it contains ~
         directory = os.path.expanduser(directory)
 
-        # Check if a directory exists
-        if not os.path.exists(directory):
-            return Div(P(f"Directory not found: {directory}"), cls="container")
-
-        # Check if it's actually a directory
-        if not os.path.isdir(directory):
-            return Div(P(f"Path is not a directory: {directory}"), cls="container")
-
-        # Get all folders in the directory
         try:
             items = os.listdir(directory)
             folders = [item for item in items if os.path.isdir(os.path.join(directory, item))]
