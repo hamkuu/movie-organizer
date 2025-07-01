@@ -24,9 +24,8 @@ def get_default_path():
     return str(Path.home() / "Downloads" / "Movies")
 
 
-@rt("/")
-def get():
-    """Home page with directory listing feature"""
+@rt
+def index():
     return Titled(
         "Movie Organizer",
         Form(
@@ -59,33 +58,32 @@ def list_folders(directory: Path):
 
         # Check if a directory exists
         if not os.path.exists(directory):
-            return Div(P(f"❌ Directory not found: {directory}"), cls="container")
+            return Div(P(f"Directory not found: {directory}"), cls="container")
 
         # Check if it's actually a directory
         if not os.path.isdir(directory):
-            return Div(P(f"❌ Path is not a directory: {directory}"), cls="container")
+            return Div(P(f"Path is not a directory: {directory}"), cls="container")
 
         # Get all folders in the directory
         try:
             items = os.listdir(directory)
             folders = [item for item in items if os.path.isdir(os.path.join(directory, item))]
-            folders.sort()  # Sort alphabetically
+            folders.sort()
         except PermissionError:
-            return Div(P(f"❌ Permission denied: Cannot access {directory}"), cls="container")
+            return Div(P(f"Permission denied: Cannot access {directory}"), cls="container")
 
         if not folders:
-            return Div(P(f"📁 No folders found in: {directory}"), cls="container")
+            return Div(P(f"No folders found in: {directory}"), cls="container")
 
         # Create the folder list
-        folder_items = [Li(f"📁 {folder}") for folder in folders]
+        folder_items = [Li(f"{folder}") for folder in folders]
 
         return Div(
             H3(f"Folders in: {directory}"), P(f"Found {len(folders)} folder(s)"), Ul(*folder_items), cls="container"
         )
 
     except Exception as e:
-        return Div(P(f"❌ Error: {str(e)}"), cls="container")
+        return Div(P(f"Error: {str(e)}"), cls="container")
 
 
-if __name__ == "__main__":
-    serve()
+serve()
