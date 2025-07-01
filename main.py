@@ -2,7 +2,6 @@ from pathlib import Path
 
 from fasthtml.common import (
     Button,
-    Div,
     Form,
     Input,
     Label,
@@ -26,15 +25,13 @@ def index():
     return Titled(
         "Movie Organizer",
         Form(
-            Div(
-                Label("Target Path:"),
-                Input(name="path", value=get_default_path()),
-                Button("List Folders", type="submit"),
-            ),
+            Label("Target Path:"),
+            Input(name="path", value=get_default_path()),
+            Button("List Folders", type="submit"),
             hx_get="/list-folders",
             hx_target="#folder-list",
         ),
-        Div(id="folder-list"),
+        P(id="folder-list"),
     )
 
 
