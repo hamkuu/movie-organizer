@@ -18,7 +18,6 @@ app, rt = fast_app()
 
 
 def get_default_path():
-    """Get the default Downloads directory path for the current user"""
     return str(Path.home() / "Downloads" / "Movies")
 
 
@@ -28,29 +27,21 @@ def index():
         "Movie Organizer",
         Form(
             Div(
-                Label("Target Directory:", _for="directory"),
-                Input(
-                    type="text",
-                    name="directory",
-                    id="directory",
-                    value=get_default_path(),
-                    placeholder="Enter directory path...",
-                ),
+                Label("Target Path:"),
+                Input(name="path", value=get_default_path()),
                 Button("List Folders", type="submit"),
-                cls="container",
             ),
             hx_get="/list-folders",
-            hx_target="#folder-results",
-            hx_swap="innerHTML",
+            hx_target="#folder-list",
         ),
-        Div(id="folder-results"),
+        Div(id="folder-list"),
     )
 
 
 @rt("/list-folders")
-def list_folders(directory: Path):
+def list_folders(path: Path):
     try:
-        return Section(map(Ul, directory.iterdir()))
+        return Section(map(Ul, path.iterdir()))
     except Exception as e:
         return Section(P(f"Error: {str(e)}"))
 
