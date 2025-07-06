@@ -12,8 +12,16 @@ from fasthtml.common import (
     serve,
 )
 from fasthtml.components import Section
+from starlette.requests import Request
 
-app, rt = fast_app()
+
+def not_found(req: Request, exc):
+    return Titled(f"404: URL {req.url} is not found.")
+
+
+exception_handlers = {404: not_found}
+
+app, rt = fast_app(exception_handlers=exception_handlers)
 
 
 def get_default_path():
