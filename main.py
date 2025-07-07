@@ -1,27 +1,16 @@
 from pathlib import Path
 
-from fasthtml.common import (
-    Button,
-    Form,
-    Input,
-    Label,
-    P,
-    Titled,
-    Ul,
-    fast_app,
-    serve,
-)
-from fasthtml.components import Section
+from fasthtml import common as fh
 from starlette.requests import Request
 
 
 def not_found(req: Request, exc):
-    return Titled(f"404: URL {req.url} is not found.")
+    return fh.Titled(f"404: URL {req.url} is not found.")
 
 
 exception_handlers = {404: not_found}
 
-app, rt = fast_app(exception_handlers=exception_handlers)
+app, rt = fh.fast_app(exception_handlers=exception_handlers)
 
 
 def get_default_path():
@@ -30,25 +19,25 @@ def get_default_path():
 
 @rt
 def index():
-    return Titled(
+    return fh.Titled(
         "Movie Organizer",
-        Form(
-            Label("Target Path:"),
-            Input(name="path", value=get_default_path()),
-            Button("List Folders", type="submit"),
+        fh.Form(
+            fh.Label("Target Path:"),
+            fh.Input(name="path", value=get_default_path()),
+            fh.Button("List Folders", type="submit"),
             hx_get="/list-folders",
             hx_target="#folder-list",
         ),
-        P(id="folder-list"),
+        fh.P(id="folder-list"),
     )
 
 
 @rt("/list-folders")
 def list_folders(path: Path):
     if path.is_dir():
-        return Section(map(Ul, path.iterdir()))
+        return fh.Section(map(fh.Ul, path.iterdir()))
     else:
-        return Section(P(f"{path} is not a directory."))
+        return fh.Section(fh.P(f"{path} is not a directory."))
 
 
-serve()
+fh.serve()
