@@ -4,7 +4,7 @@ A utility to organize movie metadata and assets.
 
 ## Pre-requisites
 
-- uv 0.7
+- uv 0.8
 - Python 3.12
 - FastHTML 0.12
 
